@@ -1,0 +1,148 @@
+<main class="app-shell">
+  <header class="topbar">
+    <div class="brand-mark" aria-hidden="true">TM</div>
+    <div>
+      <p class="eyebrow">Workspace / People</p>
+      <h1>Team manager</h1>
+    </div>
+    <div class="topbar-meta">
+      <span class="live-dot"></span>
+      <span>Team workspace</span>
+    </div>
+  </header>
+
+  <section class="intro-row" aria-labelledby="page-title">
+    <div>
+      <p class="eyebrow accent">People directory</p>
+      <h2 id="page-title">Keep your team in motion.</h2>
+      <p class="intro-copy">A clear view of who is here, what they do, and who is ready for the next task.</p>
+    </div>
+    <div class="summary-stat">
+      <strong>{{ teamMembers.length }}</strong>
+      <span>team members</span>
+      <small>{{ availableCount }} available now</small>
+    </div>
+  </section>
+
+  <section class="workspace-grid">
+    <aside class="add-panel" aria-labelledby="add-title">
+      <div class="panel-heading">
+        <span class="step-number">01</span>
+        <div>
+          <p class="eyebrow">Build your team</p>
+          <h3 id="add-title">Add a member</h3>
+        </div>
+      </div>
+
+      <form (ngSubmit)="addMember()" #memberForm="ngForm" novalidate>
+        <label for="member-name">Member name</label>
+        <input id="member-name" name="name" type="text" placeholder="e.g. Salma Youssef"
+          [(ngModel)]="formData.name" #nameInput="ngModel" required>
+        @if (formSubmitted && nameInput.invalid) {
+          <span class="field-error">Please enter a name.</span>
+        }
+
+        <label for="member-age">Age</label>
+        <input id="member-age" name="age" type="number" min="18" max="100" placeholder="18 - 100"
+          [(ngModel)]="formData.age" #ageInput="ngModel" required>
+        @if (formSubmitted && ageInput.invalid) {
+          <span class="field-error">Enter an age between 18 and 100.</span>
+        }
+
+        <label for="member-department">Department</label>
+        <select id="member-department" name="department" [(ngModel)]="formData.department" required>
+          @for (department of departments; track department) {
+            @if (department !== 'All Departments') {
+              <option [value]="department">{{ department }}</option>
+            }
+          }
+        </select>
+
+        <label class="availability-check" for="member-available">
+          <input id="member-available" name="available" type="checkbox" [(ngModel)]="formData.available">
+          <span class="custom-check" aria-hidden="true">✓</span>
+          <span>Available to collaborate</span>
+        </label>
+
+        <button class="primary-button" type="submit">
+          <span>+</span> Add member
+        </button>
+      </form>
+    </aside>
+
+    <section class="directory-panel" aria-labelledby="directory-title">
+      <div class="directory-toolbar">
+        <div>
+          <p class="eyebrow">Live directory</p>
+          <h3 id="directory-title">Your people</h3>
+        </div>
+        <div class="view-switcher" aria-label="Choose display mode">
+          <button type="button" [class.active]="viewMode === 'card'" (click)="viewMode = 'card'" aria-label="Card view">
+            <span class="view-icon grid-icon" aria-hidden="true"></span> Cards
+          </button>
+          <button type="button" [class.active]="viewMode === 'list'" (click)="viewMode = 'list'" aria-label="List view">
+            <span class="view-icon list-icon" aria-hidden="true"></span> List
+          </button>
+        </div>
+      </div>
+
+      <div class="filter-row">
+        <label for="department-filter">Showing</label>
+        <select id="department-filter" name="filter" [(ngModel)]="selectedDepartment">
+          @for (department of departments; track department) {
+            <option [value]="department">{{ department }}</option>
+          }
+        </select>
+        <span class="result-count">{{ filteredMembers.length }} {{ filteredMembers.length === 1 ? 'person' : 'people' }}</span>
+      </div>
+
+      @if (filteredMembers.length === 0) {
+        <div class="empty-state">
+          <span class="empty-icon">—</span>
+          <h4>No members here yet</h4>
+          <p>Try another department or add someone new to the team.</p>
+        </div>
+      } @else {
+        @switch (viewMode) {
+          @case ('card') {
+            <div class="member-grid">
+              @for (member of filteredMembers; track member.id) {
+                <article class="member-card" [class.unavailable]="!member.available">
+                  <div class="member-card-top">
+                    <div class="avatar">{{ member.name.charAt(0) }}</div>
+                    <span class="status-pill" [class.offline]="!member.available">
+                      <span class="status-dot"></span>{{ member.available ? 'Available' : 'Unavailable' }}
+                    </span>
+                  </div>
+                  <h4>{{ member.name }}</h4>
+                  <p class="member-role">{{ member.department }}</p>
+                  <div class="member-details">
+                    <span><b>AGE</b>{{ member.age }}</span>
+                    <button type="button" class="toggle-button" (click)="toggleAvailability(member)">
+                      {{ member.available ? 'Set away' : 'Set available' }}
+                    </button>
+                  </div>
+                </article>
+              }
+            </div>
+          }
+          @case ('list') {
+            <div class="member-list">
+              @for (member of filteredMembers; track member.id) {
+                <div class="list-member" [class.unavailable]="!member.available">
+                  <div class="list-person">
+                    <div class="avatar small">{{ member.name.charAt(0) }}</div>
+                    <div><strong>{{ member.name }}</strong><span>{{ member.age }} years old</span></div>
+                  </div>
+                  <span class="department-label">{{ member.department }}</span>
+                  <span class="list-status"><span class="status-dot"></span>{{ member.available ? 'Available' : 'Unavailable' }}</span>
+                  <button type="button" class="icon-toggle" (click)="toggleAvailability(member)" [attr.aria-label]="'Toggle availability for ' + member.name">↔</button>
+                </div>
+              }
+            </div>
+          }
+        }
+      }
+    </section>
+  </section>
+</main>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile Lookup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="lookup-panel" aria-labelledby="page-title">
+      <div class="eyebrow">API exercise / Task 04</div>
+      <h1 id="page-title">Find a user profile.</h1>
+      <p class="intro">Fetch a profile from JSONPlaceholder and show the details returned by the API.</p>
+
+      <form id="user-form" class="lookup-form">
+        <label for="user-id">User ID</label>
+        <div class="input-row">
+          <input id="user-id" name="userId" type="number" min="1" value="1" required>
+          <button type="submit">Fetch profile <span aria-hidden="true">&rarr;</span></button>
+        </div>
+      </form>
+
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+
+      <article id="profile" class="profile-card" aria-live="polite" hidden>
+        <div class="avatar" id="avatar" aria-hidden="true"></div>
+        <div>
+          <div class="card-label">Profile found</div>
+          <h2 id="user-name"></h2>
+          <p id="user-email"></p>
+        </div>
+      </article>
+    </section>
+
+    <aside class="side-note" aria-label="Request information">
+      <div class="signal-dot"></div>
+      <p class="side-label">Live endpoint</p>
+      <code>jsonplaceholder.typicode.com/users/{id}</code>
+      <p class="side-copy">The response is parsed as JSON and checked for HTTP errors before it reaches the page.</p>
+    </aside>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

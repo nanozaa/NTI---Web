@@ -1,0 +1,42 @@
+{
+  "info": {
+    "name": "Restaurant MenuItem Module",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "menuItemId", "value": "replace-with-created-id" }
+  ],
+  "item": [
+    {
+      "name": "Create menu item",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"name\": \"Margherita Pizza\",\n  \"description\": \"Tomato, mozzarella, and fresh basil\",\n  \"category\": \"main-course\",\n  \"price\": 180,\n  \"available\": true,\n  \"ingredients\": [\"tomato\", \"mozzarella\", \"basil\"]\n}" },
+        "url": "{{baseUrl}}/menuItem"
+      }
+    },
+    {
+      "name": "Get all menu items",
+      "request": { "method": "GET", "url": "{{baseUrl}}/menuItem" }
+    },
+    {
+      "name": "Get menu item by ID",
+      "request": { "method": "GET", "url": "{{baseUrl}}/menuItem/{{menuItemId}}" }
+    },
+    {
+      "name": "Update menu item",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"price\": 200,\n  \"available\": false\n}" },
+        "url": "{{baseUrl}}/menuItem/{{menuItemId}}"
+      }
+    },
+    {
+      "name": "Delete menu item",
+      "request": { "method": "DELETE", "url": "{{baseUrl}}/menuItem/{{menuItemId}}" }
+    }
+  ]
+}
