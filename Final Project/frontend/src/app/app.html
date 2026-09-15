@@ -1,0 +1,16 @@
+<header class="topbar">
+  <a class="brand" routerLink="/"><span class="brand-mark">ST</span><span>Saffron Table</span></a>
+  <nav class="nav-links">
+    <a routerLink="/menu" routerLinkActive="active">Menu</a>
+    <a class="order-link" routerLink="/checkout" routerLinkActive="active">Order <span class="cart-badge">{{ cart.count() }}</span></a>
+    @if (auth.isLoggedIn()) {
+      <a routerLink="/account/profile" routerLinkActive="active">Profile</a>
+      <a routerLink="/account/menu" routerLinkActive="active">My picks</a>
+      @if (auth.isAdmin()) { <a routerLink="/admin" routerLinkActive="active">Admin</a> }
+      <button class="nav-action" type="button" (click)="logout()">Sign out</button>
+    } @else { <a class="nav-action" routerLink="/sign-in">Sign in</a> }
+  </nav>
+</header>
+@if (cart.lastAdded(); as message) { <div class="cart-toast" role="status">{{ message }}</div> }
+<main><router-outlet /></main>
+<footer class="footer"><span>Saffron Table / Alexandria</span><span>Open daily 11:00 - 23:00</span></footer>

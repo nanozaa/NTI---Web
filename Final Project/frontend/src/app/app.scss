@@ -1,0 +1,13 @@
+ :host { display: block; min-height: 100vh; }
+.topbar { align-items: center; display: flex; justify-content: space-between; padding: 24px 6vw; }
+.brand { align-items: center; color: var(--ink); display: flex; font-family: var(--display); font-size: 1.35rem; font-weight: 700; gap: 10px; text-decoration: none; }
+.brand-mark { align-items: center; background: var(--coral); color: white; display: inline-flex; font-family: var(--body); font-size: .7rem; height: 36px; justify-content: center; letter-spacing: .08em; width: 36px; }
+.nav-links { align-items: center; display: flex; gap: 24px; }
+.nav-links a { color: var(--muted); font-size: .9rem; text-decoration: none; }
+.nav-links a.active, .nav-links a:hover { color: var(--coral); }
+.order-link { align-items: center; display: inline-flex; gap: 7px; }
+.cart-badge { align-items: center; background: var(--coral); border-radius: 50%; color: white; display: inline-flex; font-size: .7rem; height: 22px; justify-content: center; min-width: 22px; padding: 0 5px; }
+.cart-toast { background: var(--ink); color: white; font-size: .85rem; padding: 13px 18px; position: fixed; right: 24px; top: 24px; z-index: 10; }
+.nav-action { background: none; border: 0; color: var(--coral); cursor: pointer; font: inherit; font-size: .9rem; }
+.footer { color: var(--muted); display: flex; font-size: .78rem; justify-content: space-between; padding: 34px 6vw; }
+@media (max-width: 650px) { .topbar { align-items: flex-start; flex-direction: column; gap: 18px; } .nav-links { flex-wrap: wrap; gap: 14px; } .footer { flex-direction: column; gap: 8px; } }
