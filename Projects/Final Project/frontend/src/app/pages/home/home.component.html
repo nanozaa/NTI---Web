@@ -1,0 +1,40 @@
+<section class="page hero">
+  <div class="hero-copy">
+    <span class="eyebrow">A neighborhood table, thoughtfully set</span>
+    <h1>Good food makes room for everyone.</h1>
+    <p>Seasonal plates, open-fire cooking, and the kind of welcome that makes a weekday feel like Friday.</p>
+    <div class="hero-actions">
+      <a class="button" routerLink="/menu">Explore the menu</a>
+      <a class="button secondary" href="#reserve">Reserve a table</a>
+    </div>
+  </div>
+  <div class="hero-art" aria-label="Saffron Table dining room illustration"><span>Come hungry.</span></div>
+</section>
+<section class="page" id="reserve">
+  <div class="split">
+    <div><span class="eyebrow">Tonight's table</span><h2>Make it a little special.</h2><p>This signal-driven form updates its state instantly, without waiting for a server.</p></div>
+    <form class="form-shell form-grid" (ngSubmit)="bookTable()">
+      <label>Your name
+        <input name="name" [ngModel]="bookingName()" (ngModelChange)="bookingName.set($event)" placeholder="Maya Hassan" required>
+      </label>
+      <label>Date and time
+        <input name="date" type="datetime-local" [ngModel]="bookingDate()" (ngModelChange)="bookingDate.set($event)" required>
+      </label>
+      <label>Guests
+        <select name="guests" [ngModel]="guestCount()" (ngModelChange)="updateGuestCount(+$event)">
+          @for (count of [1, 2, 3, 4, 5, 6, 7, 8]; track count) {
+            <option [value]="count">{{ count }} guests</option>
+          }
+        </select>
+      </label>
+      <label>Anything we should know?
+        <textarea name="note" [ngModel]="bookingNote()" (ngModelChange)="bookingNote.set($event)" rows="3" placeholder="Birthday, allergies, window seat..."></textarea>
+      </label>
+      <button class="button" type="submit">Request a table</button>
+      @if (booked()) {
+        <div class="notice">Thanks {{ bookingName() }}, we saved your request for {{ guestCount() }} guests.</div>
+      }
+      @if (bookingError()) { <div class="notice">{{ bookingError() }}</div> }
+    </form>
+  </div>
+</section>

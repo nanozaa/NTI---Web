@@ -1,0 +1,27 @@
+<div class="profile-layout">
+  <div>
+    <span class="eyebrow">Your details</span>
+    <h2>Make it yours.</h2>
+    <p>Keep your contact and delivery details ready for the next order.</p>
+    <div class="profile-photo">
+      <img [src]="imageUrl()" alt="Profile picture">
+      <label class="button secondary photo-button">Change photo<input type="file" accept="image/*" (change)="chooseImage($event)"></label>
+    </div>
+  </div>
+  <form class="form-shell form-grid" (ngSubmit)="save()">
+    <div class="form-two-column">
+      <label>First name<input name="firstName" [(ngModel)]="profile.firstName" required minlength="2"></label>
+      <label>Last name<input name="lastName" [(ngModel)]="profile.lastName" required minlength="2"></label>
+    </div>
+    <label>Email<input name="email" [value]="profile.email" readonly></label>
+    <label>Phone<input name="phone" [(ngModel)]="profile.phone" placeholder="+201000000000"></label>
+    <label>Street address<input name="street" [(ngModel)]="profile.address!.street" placeholder="Apartment, building, street"></label>
+    <div class="form-two-column">
+      <label>City<input name="city" [(ngModel)]="profile.address!.city"></label>
+      <label>Postal code<input name="postalCode" [(ngModel)]="profile.address!.postalCode"></label>
+    </div>
+    @if (saved()) { <div class="notice">Your profile has been updated.</div> }
+    @if (error()) { <div class="error">{{ error() }}</div> }
+    <button class="button" type="submit" [disabled]="saving()">{{ saving() ? 'Saving...' : 'Save profile' }}</button>
+  </form>
+</div>
