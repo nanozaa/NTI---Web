@@ -1,0 +1,93 @@
+<main class="page-shell">
+  <header class="site-header">
+    <a class="wordmark" href="/" aria-label="Loop and Loom home">
+      <span class="wordmark-mark">L</span>
+      <span>loop <i>&amp;</i> loom</span>
+    </a>
+    <div class="header-note">Objects for everyday rituals <span aria-hidden="true">↗</span></div>
+  </header>
+
+  <section class="intro" aria-labelledby="page-title">
+    <p class="eyebrow">Small batch / thoughtfully made</p>
+    <h1 id="page-title">Keep good things<br><em>close.</em></h1>
+    <p class="intro-copy">A considered collection of useful objects, made to be lived with.</p>
+  </section>
+
+  <div class="shop-layout">
+    <section class="products-panel" aria-labelledby="collection-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">The collection</p>
+          <h2 id="collection-title">Objects with a point of view</h2>
+        </div>
+        <span class="item-count">{{ products.length | number:'2.0-0' }} pieces</span>
+      </div>
+
+      <div class="product-grid">
+        @for (product of products; track product.id) {
+          <article class="product-card">
+            <div class="product-art" [class]="product.accent" aria-hidden="true">
+              <span class="art-index">0{{ product.id }}</span>
+              <span class="art-shape"></span>
+            </div>
+            <div class="product-info">
+              <div class="product-meta">
+                <span>{{ product.category }}</span>
+                <span>{{ product.price | currency:'USD':'symbol':'1.0-0' }}</span>
+              </div>
+              <h3>{{ product.name }}</h3>
+              <p>{{ product.description }}</p>
+              <button class="add-button" type="button" [disabled]="isInCart(product.id)" (click)="addToCart(product)">
+                @if (isInCart(product.id)) { Added to cart <span aria-hidden="true">✓</span> }
+                @else { Add to cart <span aria-hidden="true">+</span> }
+              </button>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+
+    <aside class="cart-panel" aria-labelledby="cart-title">
+      <div class="cart-heading">
+        <div>
+          <p class="eyebrow">Your selection</p>
+          <h2 id="cart-title">The cart <span>({{ cartCount() }})</span></h2>
+        </div>
+        @if (cartCount() > 0) {
+          <button class="clear-button" type="button" (click)="clearCart()">Clear all</button>
+        }
+      </div>
+
+      @if (cartCount() === 0) {
+        <div class="empty-cart">
+          <span class="empty-mark" aria-hidden="true">＋</span>
+          <p>Your cart is empty</p>
+          <span>Choose a few things to begin.</span>
+        </div>
+      } @else {
+        <div class="cart-items">
+          @for (product of cart(); track product.id) {
+            <div class="cart-item">
+              <div class="mini-art" [class]="product.accent" aria-hidden="true"><span></span></div>
+              <div class="cart-item-copy">
+                <h3>{{ product.name }}</h3>
+                <span>{{ product.category }}</span>
+              </div>
+              <div class="cart-item-action">
+                <strong>{{ product.price | currency:'USD':'symbol':'1.0-0' }}</strong>
+                <button type="button" class="remove-button" (click)="removeFromCart(product.id)">Remove</button>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="cart-total">
+          <span>Estimated total</span>
+          <strong>{{ totalPrice() | currency:'USD':'symbol':'1.0-0' }}</strong>
+        </div>
+        <button class="checkout-button" type="button">Continue to checkout <span aria-hidden="true">→</span></button>
+        <p class="cart-footnote">Shipping and taxes calculated at checkout.</p>
+      }
+    </aside>
+  </div>
+</main>
